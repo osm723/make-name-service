@@ -1,14 +1,14 @@
-package com.project.nameMaker.dto;
+package com.project.nameMaker.stats.dto;
 
-import com.project.nameMaker.entity.NameStats;
+import com.project.nameMaker.stats.entity.NameStats;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 @Getter
-public class NameResponseDto {
+public class StatsResponseDto {
 
-    public NameResponseDto(String name, String gender, Integer years, Integer yearRank, Integer totalRank, Integer yearCount) {
+    public StatsResponseDto(String name, String gender, Integer years, Integer yearRank, Integer totalRank, Integer yearCount) {
         this.name = name;
         this.gender = gender;
         this.years = years;
@@ -17,7 +17,7 @@ public class NameResponseDto {
         this.yearCount = yearCount;
     }
 
-    public NameResponseDto(NameStats nameStats) {
+    public StatsResponseDto(NameStats nameStats) {
         this.name = nameStats.getName();
         this.gender = nameStats.getGender();
         this.years = nameStats.getYears();

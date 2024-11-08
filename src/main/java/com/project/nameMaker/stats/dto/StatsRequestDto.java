@@ -1,6 +1,5 @@
-package com.project.nameMaker.entity;
+package com.project.nameMaker.stats.dto;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -8,9 +7,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-@Entity
 @Getter
-public class NameStats {
+public class StatsRequestDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,14 +33,4 @@ public class NameStats {
 
     @NotEmpty
     private Integer yearCount;
-
-    /*
-    이름
-    성별
-    연도
-    연도 순위
-    전체 순위
-    연도 비율
-     */
-
 }

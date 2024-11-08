@@ -1,11 +1,11 @@
-package com.project.nameMaker.repository;
+package com.project.nameMaker.stats.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.util.StringUtils;
 
-import static com.project.nameMaker.entity.QNameStats.nameStats;
+import static com.project.nameMaker.stats.entity.QNameStats.nameStats;
 
-public class NameWhereCond {
+public class StatsWhereCond {
 
     public BooleanExpression genderEqual(String gender) {
         return StringUtils.hasText(gender) ? nameStats.gender.eq(gender) : null;

@@ -6,8 +6,8 @@ spring:
     driver-class-name: org.h2.Driver
 
   jpa:
-    #hibernate:
-      #ddl-auto: create
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
         #show_sql: true
@@ -15,6 +15,9 @@ spring:
   data:
     web:
       pageable:
-        default-page-size: 10
+        default-page-size: 100
 logging.level:
   org.hibernate.SQL: debug
+
+
+

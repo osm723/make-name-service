@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="copy">
+    <table border="1">
+        <tr>
+            <td>
+                <a th:href="@{/}">홈</a>
+            </td>
+            <td>
+                <a th:href="@{/stats/main}">통계</a>
+            </td>
+            <td>
+                <a th:href="@{/generation/main}">생성</a>
+            </td>
+            <td>
+                <a th:href="@{/bookMark/main}">즐겨찾기</a>
+            </td>
+        </tr>
+    </table>
+</header>

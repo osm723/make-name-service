@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>이름 생성 프로그램</h2>
+<div th:insert="~{name/header/header :: copy}"></div>
+<h3>연도별 상위 이름 현황</h3>
+<form action="#" th:action="@{/stats/statsNames}" method="get">
+    <div>
+        <label>
+            <b th:name="연도">연도</b>
+        </label>
+        <label>
+            <select name="startYear">
+                <option th:each="year : ${years}"
+                        th:value="${year}"
+                        th:text="${year}"
+                        th:selected="${year == startYear}">
+                </option>
+            </select>
+        </label>
+        <label>
+            <b>~</b>
+        </label>
+        <label>
+            <select name="endYear">
+                <option th:each="year : ${years}"
+                        th:value="${year}"
+                        th:text="${year}"
+                        th:selected="${year == endYear}">
+                </option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            <b th:name="성별">성별</b>
+        </label>
+        <label>
+            <input type="radio" name="gender" value=""
+                   th:checked="${selectedGender == ''}"> 전체
+        </label>
+        <label>
+            <input type="radio" name="gender" value="남"
+                   th:checked="${selectedGender == '남'}"> 남
+        </label>
+        <label>
+            <input type="radio" name="gender" value="여"
+                   th:checked="${selectedGender == '여'}"> 여
+        </label>
+    </div>
+    <div>
+        <label>
+            <b th:name="이름">이름</b>
+        </label>
+        <label>
+            <input type="text" name="name" th:value="${name}"/>
+        </label>
+        <label>
+            <button type="submit">조회</button>
+        </label>
+    </div>
+</form>
+<br>
+<table border="1">
+    <tr>
+        <th>연도</th>
+        <th>이름</th>
+        <th>성별</th>
+        <th>연간 순위</th>
+        <th>연간 등록수</th>
+<!--        <th th:text="${selectedYear + '년 순위'}">연간 순위</th>-->
+<!--        <th th:text="${selectedYear + '년 등록수'}">연간 등록수</th>-->
+    </tr>
+    <tr th:each="name : ${names}">
+        <td th:text="${name.getYears()}">연도</td>
+        <td th:text="${name.getName()}">이름</td>
+        <td th:text="${name.getGender()}">성별</td>
+        <td th:text="${name.getYearRank()}">연간 순위</td>
+        <td th:text="${name.getYearCount()}">연간 등록수</td>
+    </tr>
+</table>
+
+<!--<h1>반복 상태 유지</h1>-->
+
+<!--<table border="1">-->
+<!--    <tr>-->
+<!--        <th>count</th>-->
+<!--        <th>username</th>-->
+<!--        <th>age</th>-->
+<!--        <th>etc</th>-->
+<!--    </tr>-->
+<!--    <tr th:each="user, userStat : ${users}">-->
+<!--        <td th:text="${userStat.count}">username</td>-->
+<!--        <td th:text="${user.username}">username</td>-->
+<!--        <td th:text="${user.age}">0</td>-->
+<!--        <td>-->
+<!--            index = <span th:text="${userStat.index}"></span>-->
+<!--            count = <span th:text="${userStat.count}"></span>-->
+<!--            size = <span th:text="${userStat.size}"></span>-->
+<!--            even? = <span th:text="${userStat.even}"></span>-->
+<!--            odd? = <span th:text="${userStat.odd}"></span>-->
+<!--            first? = <span th:text="${userStat.first}"></span>-->
+<!--            last? = <span th:text="${userStat.last}"></span>-->
+<!--            current = <span th:text="${userStat.current}"></span>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+
+</body>
+</html>

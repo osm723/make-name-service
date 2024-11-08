@@ -1,13 +1,12 @@
-package com.project.nameMaker.dto;
+package com.project.nameMaker.stats.dto;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class NameRequestCond {
+public class StatsRequestCond {
 
     private String name;
 
@@ -15,7 +14,10 @@ public class NameRequestCond {
     private String gender;
 
     @Size(max = 4, min = 4)
-    private Integer years;
+    private Integer startYear;
+
+    @Size(max = 4, min = 4)
+    private Integer endYear;
 
     @Size(max = 2)
     private Integer yearRank;

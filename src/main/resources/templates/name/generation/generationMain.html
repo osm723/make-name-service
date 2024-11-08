@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>이름 생성 프로그램</h2>
+<div th:insert="~{name/header/header :: copy}"></div>
+<h3>이름 생성</h3>
+<form action="#" th:action="@{/generation/genName}" method="get">
+    <div>
+        <label>
+            <b th:name="성별">성별</b>
+        </label>
+        <label>
+            <input type="radio" name="gender" value=""
+                   th:checked="${selectedGender == ''}"> 전체
+        </label>
+        <label>
+            <input type="radio" name="gender" value="남"
+                   th:checked="${selectedGender == '남'}"> 남
+        </label>
+        <label>
+            <input type="radio" name="gender" value="여"
+                   th:checked="${selectedGender == '여'}"> 여
+        </label>
+    </div>
+    <div>
+        <label>
+            <b th:name="성">성</b>
+        </label>
+        <label>
+            <input type="text" name="firstName" th:value="${firstName}"/>
+        </label>
+        <label>
+            <button type="submit">생성</button>
+        </label>
+    </div>
+</form>
+<br>
+<table border="1">
+    <tr>
+        <th>이름</th>
+    </tr>
+    <tr th:each="name : ${names}">
+        <td th:text="${name}">이름</td>
+    </tr>
+</table>
+
+</body>
+</html>
