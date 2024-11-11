@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    view:
+      prefix: /name
+#      suffix: .html
   datasource:
     url: jdbc:h2:tcp://localhost/~/testcase
     username: sa
