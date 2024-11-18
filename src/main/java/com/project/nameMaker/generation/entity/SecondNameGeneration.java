@@ -9,17 +9,17 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class NameGeneration {
+public class SecondNameGeneration {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
     @NotEmpty
-    private String firstWord;
-
-    @NotEmpty
     private String secondWord;
 
+    @NotEmpty
+    private String gender;
 
+    
 }

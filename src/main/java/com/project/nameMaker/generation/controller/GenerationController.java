@@ -21,19 +21,24 @@ public class GenerationController {
 
     @GetMapping("/main")
     public String generationMain(Model model) {
-        //List<String> nameGeneration = generationService.nameGeneration(firstName);
-        model.addAttribute("names", "");
+        setModel(model, new GenerationRequestDto());
         return "/name/generation/generationMain";
     }
 
-    @GetMapping("/genName")
-    public String generationName(Model model, GenerationRequestDto generationRequestDto) {
-        List<String> nameGeneration = generationService.nameGeneration(generationRequestDto);
+    @GetMapping("/generationNames")
+    public String generationNames(Model model, GenerationRequestDto generationRequestDto) {
+        List<String> generationNames = generationService.generationNames(generationRequestDto);
+        setModel(model, generationRequestDto);
+        model.addAttribute("names", generationNames);
 
-        model.addAttribute("names", nameGeneration);
+        return "/name/generation/generationMain";
+    }
+
+    private void setModel(Model model, GenerationRequestDto generationRequestDto) {
+        model.addAttribute("selectedGender", generationRequestDto.getGender() != null ? generationRequestDto.getGender() : "");
+        model.addAttribute("selectedName", generationRequestDto.getSelectedName() != null ? generationRequestDto.getSelectedName() : "");
         model.addAttribute("lastName", generationRequestDto.getLastName());
         model.addAttribute("firstName", generationRequestDto.getFirstName());
         model.addAttribute("secondName", generationRequestDto.getSecondName());
-        return "/name/generation/generationMain";
     }
 }

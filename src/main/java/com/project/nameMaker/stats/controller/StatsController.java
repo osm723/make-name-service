@@ -102,7 +102,7 @@ public class StatsController {
         model.addAttribute("startYear", statsRequestCond.getStartYear() != null ? statsRequestCond.getStartYear() : 2024 );
         model.addAttribute("endYear", statsRequestCond.getEndYear() != null ? statsRequestCond.getEndYear() : 2024 );
         model.addAttribute("selectedGender", statsRequestCond.getGender() != null ? statsRequestCond.getGender() : "");
-        model.addAttribute("name", statsRequestCond.getName() != null ? statsRequestCond.getName() : "");
+        model.addAttribute("name", statsRequestCond.getName());
     }
 
 }

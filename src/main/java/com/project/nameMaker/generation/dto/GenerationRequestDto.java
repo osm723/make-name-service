@@ -12,4 +12,8 @@ public class GenerationRequestDto {
     private String firstName;
 
     private String secondName;
+
+    private String gender;
+
+    private String selectedName;
 }
