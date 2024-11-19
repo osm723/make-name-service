@@ -23,9 +23,9 @@ public class CookieUtils {
     private static final String SAVED_NAME_COOKIE = "savedName";
 
     @GetMapping("/set-cookie")
-    public void setCookie(String addName, HttpServletRequest request, HttpServletResponse response) {
+    public void setCookie(String saveName, HttpServletRequest request, HttpServletResponse response) {
         List<String> savedNames = getCookie(request);
-        savedNames.add(savedNames.size(), addName);
+        savedNames.add(savedNames.size(), saveName);
 
         try {
             String json = objectMapper.writeValueAsString(savedNames);

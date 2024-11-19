@@ -5,7 +5,6 @@
     <title>Title</title>
 </head>
 <script>
-
     // 라디오 버튼 값에 따라 각 input 필드 활성화/비활성화
     function toggleInputs(selectedName) {
         if (selectedName.value === 'first') {
@@ -23,6 +22,26 @@
             document.getElementById("secondName").value = '';
         }
     }
+
+    // AJAX 요청을 통해 특정 name 저장하는 함수
+    function saveName(saveNameElement) {
+        const name = saveNameElement.innerText;
+        fetch('/api/bookMark/save?saveName=' + name, {
+            method: 'POST'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('시스템 담당자에게 문의해주세요.');
+                }
+                return response.text();
+            })
+            .then(data => {
+                alert(data);  // 성공 메시지를 사용자에게 보여줍니다.
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
 </script>
 <body>
 <h2>이름 생성 프로그램</h2>
@@ -31,7 +50,7 @@
 <form action="#" th:action="@{/generation/generationNames}" method="get">
     <div>
         <label>
-            <b th:name="성별">성별</b>
+            <b th:name="성별">(조건) 성별</b>
         </label>
         <label>
             <input type="radio" name="gender" value=""
@@ -48,13 +67,16 @@
     </div>
     <div>
         <label>
-            <b th:name="성">성</b>
+            <b th:name="성">(조건) 성</b>
         </label>
         <label>
             <input type="text" name="lastName" th:value="${lastName}"/>
         </label>
     </div>
     <div>
+        <label>
+            <b>(조건) 이름</b>
+        </label>
         <label>
             <input type="radio" name="selectedName" value=""
                    onclick="toggleInputs(this)"
@@ -73,7 +95,7 @@
     </div>
     <div id="firstNameDiv" th:hidden="${selectedName == 'first' ? false : true}">
         <label>
-            <b th:name="이름">(조건부) 첫번째 이름</b>
+            <b th:name="이름">(조건) 첫번째 이름</b>
         </label>
         <label>
             <input type="text" id="firstName" name="firstName" th:value="${firstName}"/>
@@ -81,7 +103,7 @@
     </div>
     <div id="secondNameDiv" th:hidden="${selectedName == 'second' ? false : true}">
         <label>
-            <b th:name="두번째">(조건부) 두번째 이름</b>
+            <b th:name="두번째">(조건) 두번째 이름</b>
         </label>
         <label>
             <input type="text" id="secondName" name="secondName" th:value="${secondName}"/>
@@ -97,9 +119,11 @@
 <table border="1">
     <tr>
         <th>이름</th>
+        <th>저장하기</th>
     </tr>
     <tr th:each="name : ${names}">
-        <td th:text="${name}">이름</td>
+        <td th:id="${name}" th:text="${name}">이름</td>
+        <td><button type="button" th:attr="onclick=${'saveName(' + name + ')'}">저장</button></td>
     </tr>
 </table>
 
