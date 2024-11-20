@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,11 +84,20 @@ public class StatsController {
      */
     @GetMapping("/statsNames")
     public String namesSearch(Model model, Pageable pageable, StatsRequestCond statsRequestCond) {
+        log.info("namesSearch===");
         Page<StatsResponseDto> names = statsService.findByWhere(pageable, statsRequestCond);
         setModel(model, statsRequestCond);
         model.addAttribute("names", names);
 
         return "/name/stats/statsMain";
+    }
+
+    @GetMapping("/statsNamesPage")
+    public ResponseEntity<Page<StatsResponseDto>> getStatsNamesPage(Model model, Pageable pageable, StatsRequestCond statsRequestCond) {
+        Page<StatsResponseDto> names = statsService.findByWhere(pageable, statsRequestCond);
+        setModel(model, statsRequestCond);
+
+        return ResponseEntity.ok(names);
     }
 
     @ModelAttribute("years")

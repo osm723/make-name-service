@@ -8,13 +8,14 @@ import lombok.Getter;
 @Getter
 public class StatsResponseDto {
 
-    public StatsResponseDto(String name, String gender, Integer years, Integer yearRank, Integer totalRank, Integer yearCount) {
+    public StatsResponseDto(String name, String gender, Integer years, Integer yearRank, Integer totalRank, Integer yearCount, int pageSize) {
         this.name = name;
         this.gender = gender;
         this.years = years;
         this.yearRank = yearRank;
         this.totalRank = totalRank;
         this.yearCount = yearCount;
+        this.pageSize = 10;
     }
 
     public StatsResponseDto(NameStats nameStats) {
@@ -45,5 +46,7 @@ public class StatsResponseDto {
 
     @NotEmpty
     private Integer yearCount;
+
+    private int pageSize;
 
 }

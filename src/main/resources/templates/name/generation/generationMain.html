@@ -26,7 +26,7 @@
     // AJAX 요청을 통해 특정 name 저장하는 함수
     function saveName(saveNameElement) {
         const name = saveNameElement.innerText;
-        fetch('/api/bookMark/save?saveName=' + name, {
+        fetch('/save/api/saveName?saveName=' + name, {
             method: 'POST'
         })
             .then(response => {

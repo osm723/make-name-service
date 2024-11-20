@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <script>
+
     // AJAX 요청을 통해 특정 name 저장하는 함수
     function saveName(saveNameElement) {
         const name = saveNameElement.innerText;
-        fetch('/api/bookMark/save?saveName=' + name, {
+        fetch('/save/api/saveName?saveName=' + name, {
             method: 'POST'
         })
             .then(response => {
@@ -24,6 +26,48 @@
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
+
+    let currentPage = 0;
+    // 더보기 (페이징) 함수
+    function loadMore(event) {
+        event.preventDefault();  // 링크의 기본 동작 방지
+        currentPage++;
+
+        $.ajax({
+            url: '/stats/statsNamesPage',
+            method: 'GET',
+            data: {
+                page: currentPage,
+                startYear: $('#startYear').val(),
+                endYear: $('#endYear').val(),
+                gender: $('input[name="gender"]:checked').val()
+            },
+            success: function (data) {
+                // 새로운 데이터를 받아서 화면에 추가
+                data.content.forEach(function (name) {
+                    const row = `
+                        <tr>
+                            <td name="nameYear">${name.years}</td>
+                            <td name="nameName" id="${name.name}">${name.name}</td>
+                            <td name="nameGender">${name.gender}</td>
+                            <td name="nameYearRank">${name.yearRank}</td>
+                            <td name="nameYearCount">${name.yearCount}</td>
+                            <td name="nameSave"><button type="button" th:attr="onclick=${'saveName(' + name.name + ')'}">저장</button></td>
+                        </tr>
+                    `;
+                    $('#nameContainer').append(row); // 테이블에 행 추가
+                });
+
+                // 데이터가 더 이상 없으면 "더보기" 링크 숨기기
+                if (data.last) {
+                    $('#loadMoreLinkButton').hide();
+                }
+            },
+            error: function () {
+                alert("데이터를 불러오는 중 오류가 발생했습니다.");
+            }
+        });
+    }
 </script>
 <body>
 <h2>이름 생성 프로그램</h2>
@@ -35,7 +79,7 @@
             <b th:name="연도">연도</b>
         </label>
         <label>
-            <select name="startYear">
+            <select id="startYear" name="startYear">
                 <option th:each="year : ${years}"
                         th:value="${year}"
                         th:text="${year}"
@@ -47,7 +91,7 @@
             <b>~</b>
         </label>
         <label>
-            <select name="endYear">
+            <select id="endYear" name="endYear">
                 <option th:each="year : ${years}"
                         th:value="${year}"
                         th:text="${year}"
@@ -87,25 +131,40 @@
 </form>
 <br>
 <table border="1">
-    <tr>
-        <th>연도</th>
-        <th>이름</th>
-        <th>성별</th>
-        <th>연간 순위</th>
-        <th>연간 등록수</th>
-        <th>저장하기</th>
-<!--        <th th:text="${selectedYear + '년 순위'}">연간 순위</th>-->
-<!--        <th th:text="${selectedYear + '년 등록수'}">연간 등록수</th>-->
-    </tr>
-    <tr th:each="name : ${names}">
-        <td th:text="${name.getYears()}">연도</td>
-        <td th:id="${name.getName()}" th:text="${name.getName()}">이름</td>
-        <td th:text="${name.getGender()}">성별</td>
-        <td th:text="${name.getYearRank()}">연간 순위</td>
-        <td th:text="${name.getYearCount()}">연간 등록수</td>
-        <td><button type="button" th:attr="onclick=${'saveName(' + name.getName() + ')'}">저장</button></td>
-    </tr>
+    <thead>
+        <tr>
+            <th>연도</th>
+            <th>이름</th>
+            <th>성별</th>
+            <th>연간 순위</th>
+            <th>연간 등록수</th>
+    <!--        <th>총 순위</th>
+            <th>총 등록수</th>-->
+            <th>저장하기</th>
+    <!--        <th th:text="${selectedYear + '년 순위'}">연간 순위</th>-->
+    <!--        <th th:text="${selectedYear + '년 등록수'}">연간 등록수</th>-->
+        </tr>
+    </thead>
+    <tbody id="nameContainer">
+        <tr th:each="name : ${names}">
+            <td name="nameYear" th:text="${name.getYears()}">연도</td>
+            <td name="nameName" th:id="${name.getName()}" th:text="${name.getName()}">이름</td>
+            <td name="nameGender" th:text="${name.getGender()}">성별</td>
+            <td name="nameYearRank" th:text="${name.getYearRank()}">연간 순위</td>
+            <td name="nameYearCount" th:text="${name.getYearCount()}">연간 등록수</td>
+    <!--        <td name="nameTotalRank" th:text="${name.getYearCount()}">총 순위</td>
+            <td name="nameTotalCount" th:text="${name.getYearCount()}">총 등록수</td>-->
+            <td name="nameSave"><button type="button" th:attr="onclick=${'saveName(' + name.getName() + ')'}">저장</button></td>
+        </tr>
+    </tbody>
 </table>
+<!-- 더보기 버튼 -->
+<div th:if="${names}">
+    <button id="loadMoreLinkButton" th:if="${names.hasNext()}">
+        <a href="#" id="loadMoreLink" onclick="loadMore(event)">더보기</a>
+    </button>
+</div>
+
 
 </body>
 </html>

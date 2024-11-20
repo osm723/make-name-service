@@ -8,7 +8,7 @@
 <h2>이름 생성 프로그램</h2>
 <div th:insert="~{name/header/header :: copy}"></div>
 <h3>저장된 이름</h3>
-<form action="#" th:action="@{/bookMark/save}" method="get">
+<form action="#" th:action="@{/save/saveName}" method="get">
     <div>
         <label>
             <b th:name="성">이름 저장하기</b>
@@ -21,7 +21,7 @@
         </label>
     </div>
 </form>
-<form action="#" th:action="@{/bookMark/remove}" method="get">
+<form action="#" th:action="@{/save/removeName}" method="get">
     <div>
         <label>
             <b th:name="성">이름 삭제하기</b>
