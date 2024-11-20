@@ -84,7 +84,6 @@ public class StatsController {
      */
     @GetMapping("/statsNames")
     public String namesSearch(Model model, Pageable pageable, StatsRequestCond statsRequestCond) {
-        log.info("namesSearch===");
         Page<StatsResponseDto> names = statsService.findByWhere(pageable, statsRequestCond);
         setModel(model, statsRequestCond);
         model.addAttribute("names", names);

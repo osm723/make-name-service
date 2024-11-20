@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
     // AJAX 요청을 통해 특정 name 저장하는 함수
@@ -68,18 +68,25 @@
             }
         });
     }
+
+    // submit 호출 함수
+    function formSubmit() {
+        const form = document.getElementById("statsForm");
+        form.submit();
+    }
+
 </script>
 <body>
 <h2>이름 생성 프로그램</h2>
 <div th:insert="~{name/header/header :: copy}"></div>
 <h3>연도별 상위 이름 현황</h3>
-<form action="#" th:action="@{/stats/statsNames}" method="get">
+<form action="#" id="statsForm" th:action="@{/stats/statsNames}" method="get">
     <div>
         <label>
             <b th:name="연도">연도</b>
         </label>
         <label>
-            <select id="startYear" name="startYear">
+            <select id="startYear" name="startYear" ONCHANGE="formSubmit()">
                 <option th:each="year : ${years}"
                         th:value="${year}"
                         th:text="${year}"
@@ -91,7 +98,7 @@
             <b>~</b>
         </label>
         <label>
-            <select id="endYear" name="endYear">
+            <select id="endYear" name="endYear" ONCHANGE="formSubmit()">
                 <option th:each="year : ${years}"
                         th:value="${year}"
                         th:text="${year}"
@@ -105,15 +112,15 @@
             <b th:name="성별">성별</b>
         </label>
         <label>
-            <input type="radio" name="gender" value=""
+            <input type="radio" name="gender" value="" ONCHANGE="formSubmit()"
                    th:checked="${selectedGender == ''}"> 전체
         </label>
         <label>
-            <input type="radio" name="gender" value="남"
+            <input type="radio" name="gender" value="남" ONCHANGE="formSubmit()"
                    th:checked="${selectedGender == '남'}"> 남
         </label>
         <label>
-            <input type="radio" name="gender" value="여"
+            <input type="radio" name="gender" value="여" ONCHANGE="formSubmit()"
                    th:checked="${selectedGender == '여'}"> 여
         </label>
     </div>
