@@ -23,7 +23,8 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public Page<StatsResponseDto> findByWhere(Pageable pageable, StatsRequestCond statsRequestCond) {
-        Page<NameStats> nameStatsWhereList = statsRepository.findByWhere(pageable, statsRequestCond);
-        return nameStatsWhereList.map(StatsResponseDto::new);
+        //Page<NameStats> nameStatsWhereList = statsRepository.findByWhere(pageable, statsRequestCond);
+        //return nameStatsWhereList.map(StatsResponseDto::new);
+        return statsRepository.findByCond(pageable, statsRequestCond);
     }
 }

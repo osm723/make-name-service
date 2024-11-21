@@ -34,7 +34,7 @@ public class NameStats {
     private Integer totalRank;
 
     @NotEmpty
-    private Integer yearCount;
+    private Long yearCount;
 
     /*
     이름

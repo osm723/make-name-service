@@ -52,6 +52,11 @@
                             <td name="nameGender">${name.gender}</td>
                             <td name="nameYearRank">${name.yearRank}</td>
                             <td name="nameYearCount">${name.yearCount}</td>
+                            <td name="nameTotalCount">${name.totalCount}</td>
+                            <td name="nameTotalMin">${name.totalMinRank}</td>
+                            <td name="nameTotalMax">${name.totalMaxRank}</td>
+                            <td name="nameTotalAvg">${name.totalAvgRank}</td>
+                            <td name="nameTotalRankCount">${name.totalRankCount}</td>
                             <td name="nameSave"><button type="button" th:attr="onclick=${'saveName(' + name.name + ')'}">저장</button></td>
                         </tr>
                     `;
@@ -145,11 +150,12 @@
             <th>성별</th>
             <th>연간 순위</th>
             <th>연간 등록수</th>
-    <!--        <th>총 순위</th>
-            <th>총 등록수</th>-->
+            <th>총 등록수</th>
+            <th>총 최고 순위</th>
+            <th>총 최소 순위</th>
+            <th>총 평균 순위</th>
+            <th>총 순위 등재수</th>
             <th>저장하기</th>
-    <!--        <th th:text="${selectedYear + '년 순위'}">연간 순위</th>-->
-    <!--        <th th:text="${selectedYear + '년 등록수'}">연간 등록수</th>-->
         </tr>
     </thead>
     <tbody id="nameContainer">
@@ -159,8 +165,11 @@
             <td name="nameGender" th:text="${name.getGender()}">성별</td>
             <td name="nameYearRank" th:text="${name.getYearRank()}">연간 순위</td>
             <td name="nameYearCount" th:text="${name.getYearCount()}">연간 등록수</td>
-    <!--        <td name="nameTotalRank" th:text="${name.getYearCount()}">총 순위</td>
-            <td name="nameTotalCount" th:text="${name.getYearCount()}">총 등록수</td>-->
+            <td name="nameTotalCount" th:text="${name.getTotalCount()}">총 등록수</td>
+            <td name="nameTotalMin" th:text="${name.getTotalMinRank()}">총 최고 순위</td>
+            <td name="nameTotalMax" th:text="${name.getTotalMaxRank()}">총 최저 순위<</td>
+            <td name="nameTotalAvg" th:text="${name.getTotalAvgRank()}">총 평균 순위</td>
+            <td name="nameTotalRankCount" th:text="${name.getTotalRankCount()}">총 순위 등재수</td>
             <td name="nameSave"><button type="button" th:attr="onclick=${'saveName(' + name.getName() + ')'}">저장</button></td>
         </tr>
     </tbody>
