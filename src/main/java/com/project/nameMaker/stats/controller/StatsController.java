@@ -94,6 +94,7 @@ public class StatsController {
     @GetMapping("/statsNamesPage")
     public ResponseEntity<Page<StatsResponseDto>> getStatsNamesPage(Model model, Pageable pageable, StatsRequestCond statsRequestCond) {
         Page<StatsResponseDto> names = statsService.findByWhere(pageable, statsRequestCond);
+        model.addAttribute("names", names);
         setModel(model, statsRequestCond);
 
         return ResponseEntity.ok(names);

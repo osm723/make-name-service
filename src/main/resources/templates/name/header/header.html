@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<header th:fragment="copy">
-    <table border="1">
-        <tr>
-            <td>
-                <a th:href="@{/}">홈</a>
-            </td>
-            <td>
-                <a th:href="@{/stats/main}">통계</a>
-            </td>
-            <td>
-                <a th:href="@{/generation/main}">생성</a>
-            </td>
-            <td>
-                <a th:href="@{/save/main}">즐겨찾기</a>
-            </td>
-        </tr>
-    </table>
-</header>
+<link rel="stylesheet" href="/assets/dist/css/bootstrap.css?v=1.0">
+<script src="/assets/dist/js/color-modes.js?v=1.0"></script>
+<link href="/assets/dist/css/headers.css?v=1.0" rel="stylesheet">
+<link href="/assets/dist/css/bootstrap.css?v=1.0" rel="stylesheet">
+<script src="/assets/dist/js/bootstrap.bundle.min.js?v=1.0"></script>
+<link href="/assets/dist/css/bootstrap.min.css?v=1.0" rel="stylesheet">
+<div class="container" th:fragment="copy">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a th:href="@{/}" class="nav-link"
+                                    th:classappend="${currentUrl == '/'} ? 'active'">Home</a></li>
+            <li class="nav-item"><a th:href="@{/stats/main}" class="nav-link"
+                                    th:classappend="${currentUrl == '/stats/main'} ? 'active'">Stats</a></li>
+            <li class="nav-item"><a th:href="@{/generation/main}" class="nav-link"
+                                    th:classappend="${currentUrl == '/generation/main'} ? 'active'">Generation</a></li>
+            <li class="nav-item"><a th:href="@{/save/main}" class="nav-link"
+                                    th:classappend="${currentUrl == '/save/main'} ? 'active'">Favorite</a></li>
+            <p th:text="${currentUrl}"></p>
+        </ul>
+    </header>
+</div>

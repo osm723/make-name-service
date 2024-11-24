@@ -10,4 +10,14 @@ public class HomeController {
     public String home() {
         return "/name/home";
     }
+
+    @GetMapping("/a")
+    public String a() {
+        return "/name/header/header";
+    }
+
+    @GetMapping("/b")
+    public String b() {
+        return "/name/footer/footer";
+    }
 }

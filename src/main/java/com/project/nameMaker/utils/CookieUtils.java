@@ -42,18 +42,18 @@ public class CookieUtils {
 
     @GetMapping("/get-cookie")
     public List<String> getCookie(HttpServletRequest request) {
-        Cookie namesCookie = Arrays.stream(request.getCookies())
-                .filter(cookie -> SAVED_NAME_COOKIE.equals(cookie.getName()))
-                .findFirst()
-                .orElse(null);
-
         List<String> savedNames = new ArrayList<>();
-
-        if (namesCookie != null) {
-            try {
-                savedNames = objectMapper.readValue(URLDecoder.decode(namesCookie.getValue()), List.class);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+        if (request.getCookies() != null) {
+            Cookie namesCookie = Arrays.stream(request.getCookies())
+                    .filter(cookie -> SAVED_NAME_COOKIE.equals(cookie.getName()))
+                    .findFirst()
+                    .orElse(null);
+            if (namesCookie != null) {
+                try {
+                    savedNames = objectMapper.readValue(URLDecoder.decode(namesCookie.getValue()), List.class);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 

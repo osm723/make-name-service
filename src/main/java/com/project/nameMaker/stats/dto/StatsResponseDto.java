@@ -5,6 +5,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import org.springframework.format.annotation.NumberFormat;
 
 @Getter
 public class StatsResponseDto {
@@ -51,6 +52,7 @@ public class StatsResponseDto {
 
     private Long totalCount;      // sum 결과는 Long
 
+    @NumberFormat(pattern = "#.#") // 소수점 첫번째 자리까지
     private Double totalAvgRank;  // avg 결과는 Double
 
     private Integer totalMaxRank; // min, max 결과는 Integer

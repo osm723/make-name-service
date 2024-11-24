@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="/assets/dist/css/bootstrap.css?v=1.0">
+<script src="/assets/dist/js/color-modes.js?v=1.0"></script>
+<link href="/assets/dist/css/headers.css?v=1.0" rel="stylesheet">
+<link href="/assets/dist/css/bootstrap.css?v=1.0" rel="stylesheet">
+<script src="/assets/dist/js/bootstrap.bundle.min.js?v=1.0"></script>
+<link href="/assets/dist/css/bootstrap.min.css?v=1.0" rel="stylesheet">
+<link href="/assets/dist/css/layout.css" rel="stylesheet">
 <script>
 
     // AJAX 요청을 통해 특정 name 저장하는 함수
@@ -57,7 +64,7 @@
                             <td name="nameTotalMax">${name.totalMaxRank}</td>
                             <td name="nameTotalAvg">${name.totalAvgRank}</td>
                             <td name="nameTotalRankCount">${name.totalRankCount}</td>
-                            <td name="nameSave"><button type="button" th:attr="onclick=${'saveName(' + name.name + ')'}">저장</button></td>
+                            <td name="nameSave"><button class="w-30 btn btn-primary btn-sm" type="button" onclick=${'saveName(' + name.name + ')'}>저장</button></td>
                         </tr>
                     `;
                     $('#nameContainer').append(row); // 테이블에 행 추가
@@ -82,105 +89,124 @@
 
 </script>
 <body>
-<h2>이름 생성 프로그램</h2>
 <div th:insert="~{name/header/header :: copy}"></div>
-<h3>연도별 상위 이름 현황</h3>
-<form action="#" id="statsForm" th:action="@{/stats/statsNames}" method="get">
-    <div>
-        <label>
-            <b th:name="연도">연도</b>
-        </label>
-        <label>
-            <select id="startYear" name="startYear" ONCHANGE="formSubmit()">
-                <option th:each="year : ${years}"
-                        th:value="${year}"
-                        th:text="${year}"
-                        th:selected="${year == startYear}">
-                </option>
-            </select>
-        </label>
-        <label>
-            <b>~</b>
-        </label>
-        <label>
-            <select id="endYear" name="endYear" ONCHANGE="formSubmit()">
-                <option th:each="year : ${years}"
-                        th:value="${year}"
-                        th:text="${year}"
-                        th:selected="${year == endYear}">
-                </option>
-            </select>
-        </label>
-    </div>
-    <div>
-        <label>
-            <b th:name="성별">성별</b>
-        </label>
-        <label>
-            <input type="radio" name="gender" value="" ONCHANGE="formSubmit()"
-                   th:checked="${selectedGender == ''}"> 전체
-        </label>
-        <label>
-            <input type="radio" name="gender" value="남" ONCHANGE="formSubmit()"
-                   th:checked="${selectedGender == '남'}"> 남
-        </label>
-        <label>
-            <input type="radio" name="gender" value="여" ONCHANGE="formSubmit()"
-                   th:checked="${selectedGender == '여'}"> 여
-        </label>
-    </div>
-    <div>
-        <label>
-            <b th:name="이름">이름</b>
-        </label>
-        <label>
-            <input type="text" name="name" th:value="${name}"/>
-        </label>
-        <label>
-            <button type="submit">조회</button>
-        </label>
-    </div>
-</form>
-<br>
-<table border="1">
-    <thead>
-        <tr>
-            <th>연도</th>
-            <th>이름</th>
-            <th>성별</th>
-            <th>연간 순위</th>
-            <th>연간 등록수</th>
-            <th>총 등록수</th>
-            <th>총 최고 순위</th>
-            <th>총 최소 순위</th>
-            <th>총 평균 순위</th>
-            <th>총 순위 등재수</th>
-            <th>저장하기</th>
-        </tr>
-    </thead>
-    <tbody id="nameContainer">
-        <tr th:each="name : ${names}">
-            <td name="nameYear" th:text="${name.getYears()}">연도</td>
-            <td name="nameName" th:id="${name.getName()}" th:text="${name.getName()}">이름</td>
-            <td name="nameGender" th:text="${name.getGender()}">성별</td>
-            <td name="nameYearRank" th:text="${name.getYearRank()}">연간 순위</td>
-            <td name="nameYearCount" th:text="${name.getYearCount()}">연간 등록수</td>
-            <td name="nameTotalCount" th:text="${name.getTotalCount()}">총 등록수</td>
-            <td name="nameTotalMin" th:text="${name.getTotalMinRank()}">총 최고 순위</td>
-            <td name="nameTotalMax" th:text="${name.getTotalMaxRank()}">총 최저 순위<</td>
-            <td name="nameTotalAvg" th:text="${name.getTotalAvgRank()}">총 평균 순위</td>
-            <td name="nameTotalRankCount" th:text="${name.getTotalRankCount()}">총 순위 등재수</td>
-            <td name="nameSave"><button type="button" th:attr="onclick=${'saveName(' + name.getName() + ')'}">저장</button></td>
-        </tr>
-    </tbody>
-</table>
-<!-- 더보기 버튼 -->
-<div th:if="${names}">
-    <button id="loadMoreLinkButton" th:if="${names.hasNext()}">
-        <a href="#" id="loadMoreLink" onclick="loadMore(event)">더보기</a>
-    </button>
+
+<div class="container">
+    <main>
+        <div class="py-1 text-center">
+            <h2>연도별 상위 이름 현황</h2>
+            <p class="lead">2008년부터 2024년까지 상위 이름을 불수 있습니다.</p>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">이름 조회 조건</h4>
+                <form class="needs-validation" novalidate action="#" id="statsForm" th:action="@{/stats/statsNames}" method="get">
+                    <div class="row g-3">
+
+                        <!-- 연도 조건 -->
+                        <div class="col-sm-6">
+                            <label class="form-label">연도</label>
+                            <label>
+                                <select id="startYear" name="startYear" ONCHANGE="formSubmit()">
+                                    <option th:each="year : ${years}"
+                                            th:value="${year}"
+                                            th:text="${year}"
+                                            th:selected="${year == startYear}">
+                                    </option>
+                                </select>
+                            </label>
+                            <label>
+                                <b>부터</b>
+                            </label>
+                            <label>
+                                <select id="endYear" name="endYear" ONCHANGE="formSubmit()">
+                                    <option th:each="year : ${years}"
+                                            th:value="${year}"
+                                            th:text="${year}"
+                                            th:selected="${year == endYear}">
+                                    </option>
+                                </select>
+                            </label>
+                            <label>
+                                <b>까지</b>
+                            </label>
+                        </div>
+
+                        <!-- 성별 조건 -->
+                        <div class="col-12">
+                            <label class="form-label">성별</label>
+                            <label>
+                                <input type="radio" name="gender" value="" ONCHANGE="formSubmit()"
+                                       th:checked="${selectedGender == ''}"> 전체
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="남" ONCHANGE="formSubmit()"
+                                       th:checked="${selectedGender == '남'}"> 남
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="여" ONCHANGE="formSubmit()"
+                                       th:checked="${selectedGender == '여'}"> 여
+                            </label>
+                        </div>
+
+                        <!-- 이름 조건 -->
+                        <div class="col-12">
+                            <label class="form-label" th:name="이름">이름</label>
+                            <input type="text" name="name" th:value="${name}"/>
+                        </div>
+
+                        <div class="col-12">
+                            <button class="w-40 btn btn-primary btn-sm" type="submit">조회</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <hr class="my-5">
+        <div class="row g-1">
+            <table border="3">
+                <thead>
+                <tr>
+                    <th>연도</th>
+                    <th>이름</th>
+                    <th>성별</th>
+                    <th>연간 순위</th>
+                    <th>연간 등록수</th>
+                    <th>총 등록수</th>
+                    <th>총 최고 순위</th>
+                    <th>총 최소 순위</th>
+                    <th>총 평균 순위</th>
+                    <th>총 순위 등재수</th>
+                    <th>저장하기</th>
+                </tr>
+                </thead>
+                <tbody id="nameContainer">
+                <tr th:each="name : ${names}">
+                    <td name="nameYear" th:text="${name.getYears()}">연도</td>
+                    <td name="nameName" th:id="${name.getName()}" th:text="${name.getName()}">이름</td>
+                    <td name="nameGender" th:text="${name.getGender()}">성별</td>
+                    <td name="nameYearRank" th:text="${name.getYearRank()}">연간 순위</td>
+                    <td name="nameYearCount" th:text="${name.getYearCount()}">연간 등록수</td>
+                    <td name="nameTotalCount" th:text="${name.getTotalCount()}">총 등록수</td>
+                    <td name="nameTotalMin" th:text="${name.getTotalMinRank()}">총 최고 순위</td>
+                    <td name="nameTotalMax" th:text="${name.getTotalMaxRank()}">총 최저 순위<</td>
+                    <td name="nameTotalAvg" th:text="${name.getTotalAvgRank()}">총 평균 순위</td>
+                    <td name="nameTotalRankCount" th:text="${name.getTotalRankCount()}">총 순위 등재수</td>
+                    <td name="nameSave"><button class="w-30 btn btn-primary btn-sm" type="button" th:attr="onclick=${'saveName(' + name.getName() + ')'}">저장</button></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="col-12" th:if="${names}">
+                <button class="w-60 btn btn-primary btn-sm" id="loadMoreLinkButton" th:if="${names.hasNext()}">
+                    <a href="#" id="loadMoreLink" onclick="loadMore(event)">더보기</a>
+                </button>
+            </div>
+        </div>
+    </main>
 </div>
-
-
+<div th:insert="~{/name/footer/footer :: copy}"></div>
 </body>
 </html>

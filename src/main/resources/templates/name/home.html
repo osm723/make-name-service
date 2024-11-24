@@ -2,14 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>이름 생성 프로그램</title>
 </head>
-<h2>이름 생성 프로그램</h2>
-<div th:insert="~{/name/header/header :: copy}"></div>
-<h3>홈화면</h3>
+<link rel="stylesheet" href="/assets/dist/css/bootstrap.css?v=1.0">
+<script src="/assets/dist/js/color-modes.js"></script>
+<link href="/assets/dist/css/headers.css" rel="stylesheet">
+<link href="/assets/dist/css/bootstrap.css" rel="stylesheet">
+<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/dist/css/layout.css" rel="stylesheet">
 <body>
-<h5>이름 생성 프로그램에 오신걸 환영합니다!</h5>
-<!--/*@thymesVar id="ChartImage" type=""*/-->
-<img th:src="@{images/ChartImage.png}">
+<div th:insert="~{name/header/header :: copy}"></div>
+
+<div class="container">
+    <main>
+        <div class="py-1 text-center">
+            <h2>홈화면</h2>
+            <p class="lead">이름을 생성하고 많이 등록된 이름을 볼수 있습니다.</p>
+        </div>
+
+            <div class="d-flex justify-content-center align-items-center vh-20">
+                <img class="responsive-img" th:src="@{images/mainBaby.jpg}">
+            </div>
+    </main>
+</div>
+<div th:insert="~{/name/footer/footer :: copy}"></div>
 </body>
 </html>

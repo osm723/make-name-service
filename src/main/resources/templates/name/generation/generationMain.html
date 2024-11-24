@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<link rel="stylesheet" href="/assets/dist/css/bootstrap.css?v=1.0">
+<script src="/assets/dist/js/color-modes.js?v=1.0"></script>
+<link href="/assets/dist/css/headers.css?v=1.0" rel="stylesheet">
+<link href="/assets/dist/css/bootstrap.css?v=1.0" rel="stylesheet">
+<script src="/assets/dist/js/bootstrap.bundle.min.js?v=1.0"></script>
+<link href="/assets/dist/css/bootstrap.min.css?v=1.0" rel="stylesheet">
+<link href="/assets/dist/css/layout.css" rel="stylesheet">
 <script>
     // 라디오 버튼 값에 따라 각 input 필드 활성화/비활성화
     function toggleInputs(selectedName) {
@@ -43,89 +50,98 @@
             });
     }
 </script>
-<body>
-<h2>이름 생성 프로그램</h2>
-<div th:insert="~{name/header/header :: copy}"></div>
-<h3>이름 생성</h3>
-<form action="#" th:action="@{/generation/generationNames}" method="get">
-    <div>
-        <label>
-            <b th:name="성별">(조건) 성별</b>
-        </label>
-        <label>
-            <input type="radio" name="gender" value=""
-                   th:checked="${selectedGender == ''}"> 전체
-        </label>
-        <label>
-            <input type="radio" name="gender" value="남"
-                   th:checked="${selectedGender == '남'}"> 남
-        </label>
-        <label>
-            <input type="radio" name="gender" value="여"
-                   th:checked="${selectedGender == '여'}"> 여
-        </label>
-    </div>
-    <div>
-        <label>
-            <b th:name="성">(조건) 성</b>
-        </label>
-        <label>
-            <input type="text" name="lastName" th:value="${lastName}"/>
-        </label>
-    </div>
-    <div>
-        <label>
-            <b>(조건) 이름</b>
-        </label>
-        <label>
-            <input type="radio" name="selectedName" value=""
-                   onclick="toggleInputs(this)"
-                   th:checked="${selectedName == ''}"> 없음
-        </label>
-        <label>
-            <input type="radio" name="selectedName" value="first"
-                   onclick="toggleInputs(this)"
-                   th:checked="${selectedName == 'first'}"> 첫번째 이름
-        </label>
-        <label>
-            <input type="radio" name="selectedName" value="second"
-                   onclick="toggleInputs(this)"
-                   th:checked="${selectedName == 'second'}"> 두번째 이름
-        </label>
-    </div>
-    <div id="firstNameDiv" th:hidden="${selectedName == 'first' ? false : true}">
-        <label>
-            <b th:name="이름">(조건) 첫번째 이름</b>
-        </label>
-        <label>
-            <input type="text" id="firstName" name="firstName" th:value="${firstName}"/>
-        </label>
-    </div>
-    <div id="secondNameDiv" th:hidden="${selectedName == 'second' ? false : true}">
-        <label>
-            <b th:name="두번째">(조건) 두번째 이름</b>
-        </label>
-        <label>
-            <input type="text" id="secondName" name="secondName" th:value="${secondName}"/>
-        </label>
-    </div>
-    <div>
-        <label>
-            <button type="submit">생성</button>
-        </label>
-    </div>
-</form>
-<br>
-<table border="1">
-    <tr>
-        <th>이름</th>
-        <th>저장하기</th>
-    </tr>
-    <tr th:each="name : ${names}">
-        <td th:id="${name}" th:text="${name}">이름</td>
-        <td><button type="button" th:attr="onclick=${'saveName(' + name + ')'}">저장</button></td>
-    </tr>
-</table>
 
+<body>
+<div th:insert="~{name/header/header :: copy}"></div>
+<div class="container">
+    <main>
+        <div class="py-1 text-center">
+            <h2>이름 생성</h2>
+            <p class="lead">이름을 생성하고 저장할 수 있습니다.</p>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">이름 생성 조건</h4>
+                <form class="needs-validation" novalidate action="#" th:action="@{/generation/generationNames}" method="get">
+                    <div class="row g-3">
+
+                        <!-- 성별 조건 -->
+                        <div class="col-12">
+                            <label class="form-label" th:name="성별">(조건) 성별</label>
+                            <label>
+                                <input type="radio" name="gender" value=""
+                                       th:checked="${selectedGender == ''}"> 전체
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="남"
+                                       th:checked="${selectedGender == '남'}"> 남
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="여"
+                                       th:checked="${selectedGender == '여'}"> 여
+                            </label>
+                        </div>
+
+                        <!-- 성 조건 -->
+                        <div class="col-12">
+                            <label class="form-label">(조건) 성</label>
+                            <input type="text" name="lastName" th:value="${lastName}"/>
+                        </div>
+
+                        <!-- 이름 조건 -->
+                        <div class="col-12">
+                            <label class="form-label">(조건) 이름</label>
+                            <label>
+                                <input type="radio" name="selectedName" value=""
+                                       onclick="toggleInputs(this)"
+                                       th:checked="${selectedName == ''}"> 없음
+                            </label>
+                            <label>
+                                <input type="radio" name="selectedName" value="first"
+                                       onclick="toggleInputs(this)"
+                                       th:checked="${selectedName == 'first'}"> 첫번째 이름
+                            </label>
+                            <label>
+                                <input type="radio" name="selectedName" value="second"
+                                       onclick="toggleInputs(this)"
+                                       th:checked="${selectedName == 'second'}"> 두번째 이름
+                            </label>
+                        </div>
+
+                        <div class="col-12">
+                            <div id="firstNameDiv" th:hidden="${selectedName == 'first' ? false : true}">
+                                <label class="form-label">(조건) 첫번째 이름</label>
+                                <input type="text" id="firstName" name="firstName" th:value="${firstName}"/>
+                            </div>
+                            <div id="secondNameDiv" th:hidden="${selectedName == 'second' ? false : true}">
+                                <label class="form-label">(조건) 두번째 이름</label>
+                                <input type="text" id="secondName" name="secondName" th:value="${secondName}"/>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button class="w-40 btn btn-primary btn-sm" type="submit">생성</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <hr class="my-3">
+            <div>
+                <table border="3">
+                    <tr>
+                        <th>이름</th>
+                        <th>저장하기</th>
+                    </tr>
+                    <tr th:each="name : ${names}">
+                        <td th:id="${name}" th:text="${name}">이름</td>
+                        <td><button type="button" th:attr="onclick=${'saveName(' + name + ')'}">저장</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+<div th:insert="~{/name/footer/footer :: copy}"></div>
 </body>
 </html>
