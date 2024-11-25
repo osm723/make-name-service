@@ -26,21 +26,23 @@ public class GenerationServiceImpl implements GenerationService {
         List<GenerationResponseDto> generationSecondNames = generationRepository.generationSecondNames(generationRequestDto);
         List<String> generationNames = new ArrayList<>();
         int iteratorSize = GENERATION_NAME_SIZE;
-        String genFirstName = generationRequestDto.getFirstName();
-        String genSecondName = generationRequestDto.getSecondName();
+        String getLastName = generationRequestDto.getLastName() == null ? "" : generationRequestDto.getLastName();
 
         if (generationFirstNames.size() > 3 && generationSecondNames.size() > 3) {
             for (int i = 0; i < iteratorSize; i++) {
-                if ("".equals(generationRequestDto.getFirstName())) {
-                    genFirstName = duplicationCheck(generationFirstNames, generationRequestDto.getLastName());
+                String getFirstName = generationRequestDto.getFirstName() == null ? "" : generationRequestDto.getFirstName();
+                String getSecondName = generationRequestDto.getSecondName() == null ? "" : generationRequestDto.getSecondName();
+
+                if (getFirstName.isEmpty()) {
+                    getFirstName = duplicationCheck(generationFirstNames, getLastName);
                 }
 
-                if ("".equals(generationRequestDto.getSecondName())) {
-                    genSecondName = duplicationCheck(generationSecondNames, genFirstName);
+                if (getSecondName.isEmpty()) {
+                    getSecondName = duplicationCheck(generationSecondNames, getFirstName);
                 }
 
                 // 성 + 첫번째 이름 + 두번째 이름 조합
-                String generationName = generationRequestDto.getLastName() + genFirstName + genSecondName;
+                String generationName = getLastName + getFirstName + getSecondName;
 
                 // 기존 생성된 이름 list에 중복 체크
                 boolean duplicationName = generationNames.stream().anyMatch(generationName::equals);
@@ -49,7 +51,7 @@ public class GenerationServiceImpl implements GenerationService {
                 if (duplicationName) {
                     iteratorSize++;
                 } else {
-                    generationNames.add(generationRequestDto.getLastName() + genFirstName + genSecondName);
+                    generationNames.add(getLastName + getFirstName + getSecondName);
                 }
             }
         }
