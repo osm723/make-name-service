@@ -3,7 +3,6 @@ package com.project.nameMaker.generation.controller;
 import com.project.nameMaker.generation.dto.GenerationRequestDto;
 import com.project.nameMaker.generation.service.GenerationService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,6 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/generation")
-@Slf4j
 public class GenerationController {
 
     private final GenerationService generationService;

@@ -27,7 +27,6 @@ public class SaveController {
     public String saveMain(Model model, HttpServletRequest request) {
         List<String> savedNames = cookieUtils.getCookie(request);
         model.addAttribute("names", savedNames);
-
         return "/name/save/saveMain";
     }
 

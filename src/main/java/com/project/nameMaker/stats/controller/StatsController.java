@@ -70,6 +70,7 @@ public class StatsController {
     @GetMapping("/main")
     public String statsMain(Model model) {
         setModel(model, new StatsRequestCond());
+
         return "/name/stats/statsMain";
 
     }

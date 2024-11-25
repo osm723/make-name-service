@@ -12,12 +12,11 @@
             <li class="nav-item"><a th:href="@{/}" class="nav-link"
                                     th:classappend="${currentUrl == '/'} ? 'active'">Home</a></li>
             <li class="nav-item"><a th:href="@{/stats/main}" class="nav-link"
-                                    th:classappend="${currentUrl == '/stats/main'} ? 'active'">Stats</a></li>
+                                    th:classappend="${currentUrl.contains('/stats')} ? 'active'">Stats</a></li>
             <li class="nav-item"><a th:href="@{/generation/main}" class="nav-link"
-                                    th:classappend="${currentUrl == '/generation/main'} ? 'active'">Generation</a></li>
+                                    th:classappend="${currentUrl.contains('/generation')} ? 'active'">Generation</a></li>
             <li class="nav-item"><a th:href="@{/save/main}" class="nav-link"
-                                    th:classappend="${currentUrl == '/save/main'} ? 'active'">Favorite</a></li>
-            <p th:text="${currentUrl}"></p>
+                                    th:classappend="${currentUrl.contains('/save')} ? 'active'">Favorite</a></li>
         </ul>
     </header>
 </div>
