@@ -5,7 +5,7 @@ import com.project.nameMaker.generation.service.GenerationService;
 import com.project.nameMaker.stats.dto.StatsRequestCond;
 import com.project.nameMaker.stats.dto.StatsResponseDto;
 import com.project.nameMaker.stats.service.StatsService;
-import com.project.nameMaker.utils.CookieUtils;
+import com.project.nameMaker.common.utils.CookieUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;

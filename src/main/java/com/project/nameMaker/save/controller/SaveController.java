@@ -1,6 +1,6 @@
 package com.project.nameMaker.save.controller;
 
-import com.project.nameMaker.utils.CookieUtils;
+import com.project.nameMaker.common.utils.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
