@@ -1,37 +1,45 @@
-package com.project.nameMaker.utils;
+package com.project.nameMaker.batch.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.io.BufferedReader;
 
 @Slf4j
-public class CSVToH2 {
+@Component
+public class BatchController {
 
     // H2 데이터베이스 URL
     @Value("${spring.datasource.url}")
-    private static String jdbcURL;
+    private String jdbcURL;
 
     // H2 데이터베이스 username
     @Value("${spring.datasource.username}")
-    private static String username;
+    private String username;
 
     // H2 데이터베이스 password
     @Value("${spring.datasource.password}")
-    private static String password;
+    private String password;
 
     // csv 파일 경로와 파일명
     private static final String CSV_FILE_PATH = "/Users/oh/Desktop/study/datafile/name_stats_set.csv";
 
-    public static void main(String[] args) {
+    @Scheduled(cron = "0 0 0 1 * ?")
+    //@Scheduled(initialDelay = 10000)
+    public String setStatsNamesData() {
+        log.info("jdbcURL={}",jdbcURL);
+        log.info("username={}",username);
+        log.info("password={}",password);
         try (Connection connection = DriverManager.getConnection(jdbcURL, username, password);
-             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(CSV_FILE_PATH), StandardCharsets.UTF_8))) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(CSV_FILE_PATH), StandardCharsets.UTF_8))) {
 
             String line;
             String sql = "INSERT INTO NAME_STATS (YEAR_RANK, NAME, YEAR_COUNT, GENDER, YEARS, TOTAL_RANK) VALUES (?, ?, ?, ?, ?, 0)";
@@ -56,8 +64,10 @@ public class CSVToH2 {
             }
 
             log.info("CSV 데이터를 성공적으로 삽입했습니다.");
+            return "ok";
         } catch (Exception e) {
             e.printStackTrace();
+            return "error";
         }
     }
 }
