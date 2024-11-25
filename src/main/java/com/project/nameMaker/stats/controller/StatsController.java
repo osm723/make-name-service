@@ -4,7 +4,6 @@ import com.project.nameMaker.stats.dto.StatsRequestCond;
 import com.project.nameMaker.stats.dto.StatsResponseDto;
 import com.project.nameMaker.stats.service.StatsService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ import java.util.stream.IntStream;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/stats")
-@Slf4j
 public class StatsController {
 
     private final StatsService statsService;
@@ -49,71 +47,71 @@ public class StatsController {
 //    }
 
     /**
-     * 이름 통계
-     * 전체 조회
+     * namesAll
+     * 이름 통계 전체 조회
+     * @param model
      * @param pageable
-     * @return Page<NameResponseDto>
+     * @return viewPath
      */
     @GetMapping("/statsNamesAll")
-    public String namesAll(Model model, Pageable pageable) {
+    public String statsNamesAll(Model model, Pageable pageable) {
         Page<StatsResponseDto> names = statsService.findAll(pageable);
-        setModel(model, new StatsRequestCond());
+        model.addAttribute("names", names);
         return "/name/stats/statsMain";
     }
 
     /**
-     * 이름 통계
-     * 메인 조회
-     * @param model
-     * @return Page<NameResponseDto>
+     * statsMain
+     * 이름 통계 초기화면
+     * @param statsRequestCond
+     * @return viewPath
      */
     @GetMapping("/main")
-    public String statsMain(Model model) {
-        setModel(model, new StatsRequestCond());
-
+    public String statsMain(@ModelAttribute("statsName") StatsRequestCond statsRequestCond) {
         return "/name/stats/statsMain";
-
     }
 
     /**
-     * 이름 통계
-     * 조건부 조회
+     * statsNames
+     * 이름 통계 조건부 조회
+     * @param statsRequestCond
      * @param model
      * @param pageable
-     * @param statsRequestCond
-     * @return Page<NameResponseDto>
+     * @return viewPath
      */
     @GetMapping("/statsNames")
-    public String namesSearch(Model model, Pageable pageable, StatsRequestCond statsRequestCond) {
+    public String statsNames(@ModelAttribute("statsName") StatsRequestCond statsRequestCond, Model model, Pageable pageable) {
         Page<StatsResponseDto> names = statsService.findByWhere(pageable, statsRequestCond);
-        setModel(model, statsRequestCond);
         model.addAttribute("names", names);
-
         return "/name/stats/statsMain";
     }
 
+    /**
+     * statsNamesPage
+     * 이름 통계 조건부 조회 (화면 페이징)
+     * @param statsRequestCond
+     * @param model
+     * @param pageable
+     * @return status
+     */
     @GetMapping("/statsNamesPage")
-    public ResponseEntity<Page<StatsResponseDto>> getStatsNamesPage(Model model, Pageable pageable, StatsRequestCond statsRequestCond) {
+    public ResponseEntity<Page<StatsResponseDto>> statsNamesPage(@ModelAttribute("statsName") StatsRequestCond statsRequestCond, Model model, Pageable pageable) {
         Page<StatsResponseDto> names = statsService.findByWhere(pageable, statsRequestCond);
         model.addAttribute("names", names);
-        setModel(model, statsRequestCond);
-
         return ResponseEntity.ok(names);
     }
 
+    /**
+     * initYears
+     * 연도 설정 값
+     * @return years
+     */
     @ModelAttribute("years")
     public List<Integer> initYears() {
         List<Integer> years = IntStream.rangeClosed(2008, LocalDate.now().getYear())
                 .boxed()
                 .collect(Collectors.toList());
         return years;
-    }
-
-    private static void setModel(Model model, StatsRequestCond statsRequestCond) {
-        model.addAttribute("startYear", statsRequestCond.getStartYear() != null ? statsRequestCond.getStartYear() : 2024 );
-        model.addAttribute("endYear", statsRequestCond.getEndYear() != null ? statsRequestCond.getEndYear() : 2024 );
-        model.addAttribute("selectedGender", statsRequestCond.getGender() != null ? statsRequestCond.getGender() : "");
-        model.addAttribute("name", statsRequestCond.getName());
     }
 
 }

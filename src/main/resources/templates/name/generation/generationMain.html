@@ -11,6 +11,11 @@
 <script src="/assets/dist/js/bootstrap.bundle.min.js?v=1.0"></script>
 <link href="/assets/dist/css/bootstrap.min.css?v=1.0" rel="stylesheet">
 <link href="/assets/dist/css/layout.css" rel="stylesheet">
+<style>
+    a[href="#"] {
+        cursor: pointer;
+    }
+</style>
 <script>
     // 라디오 버튼 값에 따라 각 input 필드 활성화/비활성화
     function toggleInputs(selectedName) {
@@ -49,6 +54,14 @@
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
+
+    // submit 호출 함수
+    function formSubmit(event) {
+        //event.preventDefault(); // 기본 동작 막기
+        const form = document.getElementById("generationForm");
+        form.submit();
+    }
+
 </script>
 
 <body>
@@ -63,7 +76,7 @@
         <div class="row g-5">
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">이름 생성 조건</h4>
-                <form class="needs-validation" novalidate action="#" th:action="@{/generation/generationNames}" method="get">
+                <form class="needs-validation" novalidate action="#" id="generationForm" th:action="@{/generation/generationNames}" method="get">
                     <div class="row g-3">
 
                         <!-- 성별 조건 -->
@@ -71,22 +84,22 @@
                             <label class="form-label" th:name="성별">(조건) 성별</label>
                             <label>
                                 <input type="radio" name="gender" value=""
-                                       th:checked="${selectedGender == ''}"> 전체
+                                       th:checked="${generationName.gender == '' || generationName.gender == null}"> 전체
                             </label>
                             <label>
                                 <input type="radio" name="gender" value="남"
-                                       th:checked="${selectedGender == '남'}"> 남
+                                       th:checked="${generationName.gender == '남'}"> 남
                             </label>
                             <label>
                                 <input type="radio" name="gender" value="여"
-                                       th:checked="${selectedGender == '여'}"> 여
+                                       th:checked="${generationName.gender == '여'}"> 여
                             </label>
                         </div>
 
                         <!-- 성 조건 -->
                         <div class="col-12">
                             <label class="form-label">(조건) 성</label>
-                            <input type="text" name="lastName" th:value="${lastName}"/>
+                            <input type="text" name="lastName" th:value="${generationName.lastName}"/>
                         </div>
 
                         <!-- 이름 조건 -->
@@ -112,16 +125,18 @@
                         <div class="col-12">
                             <div id="firstNameDiv" th:hidden="${selectedName == 'first' ? false : true}">
                                 <label class="form-label">(조건) 첫번째 이름</label>
-                                <input type="text" id="firstName" name="firstName" th:value="${firstName}"/>
+                                <input type="text" id="firstName" name="firstName" th:value="${generationName.firstName}"/>
                             </div>
                             <div id="secondNameDiv" th:hidden="${selectedName == 'second' ? false : true}">
                                 <label class="form-label">(조건) 두번째 이름</label>
-                                <input type="text" id="secondName" name="secondName" th:value="${secondName}"/>
+                                <input type="text" id="secondName" name="secondName" th:value="${generationName.secondName}"/>
                             </div>
                         </div>
 
                         <div class="col-12">
-                            <button class="w-40 btn btn-primary btn-sm" type="submit">생성</button>
+                            <button class="w-40 btn btn-primary btn-sm" id="generationButton" onclick="formSubmit()">
+                                생성
+                            </button>
                         </div>
                     </div>
                 </form>

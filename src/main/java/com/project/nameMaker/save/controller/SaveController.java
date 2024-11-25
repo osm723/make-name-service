@@ -23,6 +23,13 @@ public class SaveController {
 
     private final CookieUtils cookieUtils;
 
+    /**
+     * saveMain
+     * 이름 저장 초기화면
+     * @param model
+     * @param request
+     * @return viewPath
+     */
     @GetMapping("/main")
     public String saveMain(Model model, HttpServletRequest request) {
         List<String> savedNames = cookieUtils.getCookie(request);
@@ -30,21 +37,44 @@ public class SaveController {
         return "/name/save/saveMain";
     }
 
+    /**
+     * saveName
+     * 이름 저장 기능
+     * @param saveName
+     * @param request
+     * @param response
+     * @return viewPath
+     */
     @GetMapping("/saveName")
-    public String saveName(String saveName, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public String saveName(String saveName, HttpServletRequest request, HttpServletResponse response) {
         cookieUtils.setCookie(saveName, request, response);
-        model.addAttribute("saveName", saveName);
         return "redirect:/save/main";
     }
 
+    /**
+     * removeName
+     * 이름 삭제 기능
+     * @param request
+     * @param response
+     * @return viewPath
+     */
     @GetMapping("/removeName")
     public String removeNames(HttpServletRequest request, HttpServletResponse response) {
         cookieUtils.removeCookie(request, response);
         return "redirect:/save/main";
     }
 
+    /**
+     * saveNameApi
+     * 이름 저장 기능 (외부 화면 호출)
+     * @param saveName
+     * @param model
+     * @param request
+     * @param response
+     * @return status
+     */
     @PostMapping("/api/saveName")
-    public ResponseEntity<String> bookMarkSaveApi(@RequestParam String saveName, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> saveNameApi(@RequestParam String saveName, Model model, HttpServletRequest request, HttpServletResponse response) {
         cookieUtils.setCookie(saveName, request, response);
         model.addAttribute("saveName", saveName);
 
