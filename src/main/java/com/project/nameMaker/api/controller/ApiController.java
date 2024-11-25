@@ -6,6 +6,8 @@ import com.project.nameMaker.stats.dto.StatsRequestCond;
 import com.project.nameMaker.stats.dto.StatsResponseDto;
 import com.project.nameMaker.stats.service.StatsService;
 import com.project.nameMaker.utils.CookieUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,8 +36,11 @@ public class ApiController {
      * @param statsRequestCond
      * @return names
      */
-    @RequestMapping("/stats/names")
-    //@PostMapping("/statsNames")
+    //@RequestMapping("/stats/names")
+    @PostMapping("/stats/names")
+    @Operation(summary = "이름 통계 조회", description = "이름 통계 데이터를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "400", description = "조화 실패")
     public Page<StatsResponseDto> statsNamesApi(Pageable pageable, StatsRequestCond statsRequestCond) {
         Page<StatsResponseDto> names = statsService.findByWhere(pageable, statsRequestCond);
         return names;
@@ -48,8 +53,11 @@ public class ApiController {
      * @param request
      * @return names
      */
-    @RequestMapping("/save/names")
-    //@PostMapping("/save/names")
+    //@RequestMapping("/save/names")
+    @PostMapping("/save/names")
+    @Operation(summary = "이름 저장 조회", description = "이름 저장 데이터를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "400", description = "조화 실패")
     public Map<String, Object> saveNamesApi(HttpServletRequest request) {
         Map<String, Object> response = new HashMap<>();
         response.put("content", cookieUtils.getCookie(request));
@@ -62,8 +70,11 @@ public class ApiController {
      * @param generationRequestDto
      * @return names
      */
-    @RequestMapping("/generation/names")
-    //@PostMapping("/generation/names")
+    //@RequestMapping("/generation/names")
+    @PostMapping("/generation/names")
+    @Operation(summary = "이름 생성 조회", description = "이름 생성한 데이터를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
+    @ApiResponse(responseCode = "400", description = "조화 실패")
     public Map<String, Object> generationNames(GenerationRequestDto generationRequestDto) {
         Map<String, Object> response = new HashMap<>();
         response.put("content", generationService.generationNames(generationRequestDto));
