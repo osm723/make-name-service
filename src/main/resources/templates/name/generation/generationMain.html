@@ -142,15 +142,15 @@
                 </form>
             </div>
             <hr class="my-3">
-            <div>
-                <table border="3">
+            <div class="table-responsive small">
+                <table class="table table-striped table-sm">
                     <tr>
-                        <th>이름</th>
-                        <th>저장하기</th>
+                        <th scope="col">#생성된 이름</th>
+                        <th scope="col">#저장</th>
                     </tr>
                     <tr th:each="name : ${names}">
                         <td th:id="${name}" th:text="${name}">이름</td>
-                        <td><button type="button" th:attr="onclick=${'saveName(' + name + ')'}">저장</button></td>
+                        <td><button class="w-30 btn btn-primary btn-sm" type="button" th:attr="onclick=${'saveName(' + name + ')'}">저장</button></td>
                     </tr>
                 </table>
             </div>

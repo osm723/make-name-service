@@ -15,16 +15,16 @@ import java.io.BufferedReader;
 public class CSVToH2 {
 
     // H2 데이터베이스 URL
-    @Value("${spring.datasource.url}")
-    private static String jdbcURL;
+    //@Value(value = "${spring.datasource.url}")
+    private static String jdbcURL = "jdbc:h2:tcp://localhost/~/testcase";
 
     // H2 데이터베이스 username
-    @Value("${spring.datasource.username}")
-    private static String username;
+    //@Value(value = "${spring.datasource.username}")
+    private static String username = "sa";
 
     // H2 데이터베이스 password
-    @Value("${spring.datasource.password}")
-    private static String password;
+    //@Value(value = "${spring.datasource.password}")
+    private static String password = "";
 
     // csv 파일 경로와 파일명
     private static final String CSV_FILE_PATH = "/Users/oh/Desktop/study/datafile/name_stats_set.csv";
