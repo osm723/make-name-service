@@ -33,7 +33,7 @@ class StatsControllerTest {
     @Test
     @DisplayName("Con | 이름 통계 전체 조회")
     void statsNamesAll() throws Exception {
-        PageRequest pageRequest = PageRequest.of(1, 20, Sort.by("name").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 20, Sort.by("name").ascending());
         Page<StatsResponseDto> list = new PageImpl<>(List.of());
 
         // Mock Service 동작 정의
@@ -57,7 +57,7 @@ class StatsControllerTest {
     @Test
     @DisplayName("Con | 이름 통계 조건 조회")
     void statsNames() throws Exception {
-        PageRequest pageRequest = PageRequest.of(1, 20, Sort.by("name").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 20, Sort.by("name").ascending());
         Page<StatsResponseDto> list = new PageImpl<>(List.of());
         StatsRequestCond statsRequestCond = new StatsRequestCond();
 
@@ -73,7 +73,7 @@ class StatsControllerTest {
     @Test
     @DisplayName("Con | 이름 통계 조건 조회(페이징)")
     void statsNamesPage() throws Exception {
-        PageRequest pageRequest = PageRequest.of(1, 20, Sort.by("name").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 20, Sort.by("name").ascending());
         Page<StatsResponseDto> list = new PageImpl<>(List.of());
         StatsRequestCond statsRequestCond = new StatsRequestCond();
 

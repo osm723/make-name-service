@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.project.nameMaker.generation.entity.QFirstNameGeneration.*;
@@ -25,6 +26,8 @@ public class GenerationRepositoryImpl implements GenerationRepository {
     private JPAQueryFactory queryFactory;
 
     private static final String COMMON_GENDER = "공통";
+    private static final String MAN_GENDER = "남";
+    private static final String WOMAN_GENDER = "여";
 
     public GenerationRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
@@ -46,9 +49,7 @@ public class GenerationRepositoryImpl implements GenerationRepository {
         List<GenerationResponseDto> result = queryFactory
                 .select(new QGenerationResponseDto(firstNameGeneration.firstWord))
                 .from(firstNameGeneration)
-                .where(firstNameGenderEq(COMMON_GENDER)
-                        .or(firstNameGenderEq(generationRequestDto.getGender()))
-                )
+                .where(firstNameGeneration.gender.in(genderCond(generationRequestDto)))
                 .fetch();
 
         return result;
@@ -59,21 +60,25 @@ public class GenerationRepositoryImpl implements GenerationRepository {
         List<GenerationResponseDto> result = queryFactory
                 .select(new QGenerationResponseDto(secondNameGeneration.secondWord))
                 .from(secondNameGeneration)
-                .where(secondNameGenderEq(COMMON_GENDER)
-                        .or(secondNameGenderEq(generationRequestDto.getGender()))
-                )
+                .where(secondNameGeneration.gender.in(genderCond(generationRequestDto)))
                 .fetch();
 
         return result;
     }
 
-    private BooleanExpression firstNameGenderEq(String gender) {
-        return StringUtils.hasText(gender) ? firstNameGeneration.gender.eq(gender) : null;
-    }
+    private static List<String> genderCond(GenerationRequestDto generationRequestDto) {
+        List<String> genderCond = new ArrayList<>();
+        String gender = generationRequestDto.getGender();
+        genderCond.add(COMMON_GENDER);
 
-    private BooleanExpression secondNameGenderEq(String gender) {
-        return StringUtils.hasText(gender) ? secondNameGeneration.gender.eq(gender) : null;
-    }
+        if (StringUtils.hasText(gender)) {
+            genderCond.add(generationRequestDto.getGender());
+        } else {
+            genderCond.add(MAN_GENDER);
+            genderCond.add(WOMAN_GENDER);
+        }
 
+        return genderCond;
+    }
 
 }
