@@ -102,17 +102,4 @@ public class StatsController {
         return ResponseEntity.ok(names);
     }
 
-    /**
-     * initYears
-     * 연도 설정 값
-     * @return years
-     */
-    @ModelAttribute("years")
-    public List<Integer> initYears() {
-        List<Integer> years = IntStream.rangeClosed(2008, LocalDate.now().getYear())
-                .boxed()
-                .collect(Collectors.toList());
-        return years;
-    }
-
 }
