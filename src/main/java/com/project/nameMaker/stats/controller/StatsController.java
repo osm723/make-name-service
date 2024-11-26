@@ -49,12 +49,13 @@ public class StatsController {
     /**
      * namesAll
      * 이름 통계 전체 조회
+     * @param statsRequestCond
      * @param model
      * @param pageable
      * @return viewPath
      */
     @GetMapping("/statsNamesAll")
-    public String statsNamesAll(Model model, Pageable pageable) {
+    public String statsNamesAll(@ModelAttribute("statsName") StatsRequestCond statsRequestCond, Model model, Pageable pageable) {
         Page<StatsResponseDto> names = statsService.findAll(pageable);
         model.addAttribute("names", names);
         return "/name/stats/statsMain";
