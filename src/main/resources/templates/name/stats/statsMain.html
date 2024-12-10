@@ -64,7 +64,8 @@
                             <td name="nameTotalMax">${name.totalMaxRank}</td>
                             <td name="nameTotalAvg">${name.totalAvgRank}</td>
                             <td name="nameTotalRankCount">${name.totalRankCount}</td>
-                            <td name="nameSave"><button class="w-30 btn btn-primary btn-sm" type="button" onclick=${'saveName(' + name.name + ')'}>저장</button></td>
+                            <td name="nameSave"><button class="w-30 btn btn-primary btn-sm" type="button" onclick=${'openPopup(' + name.name + ',' + name.years + ')'}>상세보기</button></td>
+                            <td name="nameSave"><button class="w-30 btn btn-primary btn-sm" type="button" onclick=${'saveName(' + name.name + ')'}>이름저장</button></td>
                         </tr>
                     `;
                     $('#nameContainer').append(row); // 테이블에 행 추가
@@ -87,10 +88,15 @@
         form.submit();
     }
 
+    //
+    function openPopup(nameElement, years) {
+        const name = nameElement.innerText;
+        window.open("/stats/detailPopup?name="+name+"&years="+years, "PopupWindow", "width=480,height=600");
+    }
+
 </script>
 <body>
 <div th:insert="~{name/header/header :: copy}"></div>
-
 <div class="container">
     <main>
         <div class="py-1 text-center">
@@ -180,6 +186,7 @@
                     <th scope="col">#합산 최소 순위</th>
                     <th scope="col">#합산 평균 순위</th>
                     <th scope="col">#합산 순위 등재수</th>
+                    <th scope="col">#상세</th>
                     <th scope="col">#저장</th>
                 </tr>
                 </thead>
@@ -195,7 +202,8 @@
                     <td name="nameTotalMax" th:text="${name.getTotalMaxRank()}">총 최저 순위<</td>
                     <td name="nameTotalAvg" th:text="${name.getTotalAvgRank()}">총 평균 순위</td>
                     <td name="nameTotalRankCount" th:text="${name.getTotalRankCount()}">총 순위 등재수</td>
-                    <td name="nameSave"><button class="w-30 btn btn-primary btn-sm" type="button" th:attr="onclick=${'saveName(' + name.getName() + ')'}">저장</button></td>
+                    <td name="nameDetail"><button class="w-30 btn btn-primary btn-sm" type="button" th:attr="onclick=${'openPopup(' + name.getName() + ' , ' + name.getYears() + ')'}">상세보기</button></td>
+                    <td name="nameSave"><button class="w-30 btn btn-primary btn-sm" type="button" th:attr="onclick=${'saveName(' + name.getName() + ')'}">이름저장</button></td>
                 </tr>
                 </tbody>
             </table>

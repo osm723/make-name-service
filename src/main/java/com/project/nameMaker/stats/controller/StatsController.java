@@ -1,9 +1,9 @@
 package com.project.nameMaker.stats.controller;
 
-import com.project.nameMaker.stats.dto.StatsRequestCond;
-import com.project.nameMaker.stats.dto.StatsResponseDto;
+import com.project.nameMaker.stats.dto.*;
 import com.project.nameMaker.stats.service.StatsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +12,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/stats")
+@Slf4j
 public class StatsController {
 
     private final StatsService statsService;
@@ -102,4 +106,19 @@ public class StatsController {
         return ResponseEntity.ok(names);
     }
 
+    /**
+     * detailPopup
+     * 이름 상세 페이지
+     * @param statsPopupRequestDto
+     * @param model
+     * @return viewPath
+     */
+    @GetMapping("/detailPopup")
+    public String detailPopup(@ModelAttribute StatsPopupRequestDto statsPopupRequestDto, Model model) {
+        StatsPopupResponseDto popupName = statsService.findByNameAndYears(statsPopupRequestDto);
+        model.addAttribute("popupName", popupName);
+        return "/name/detail/popup";
+    }
+
 }
+

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="/assets/dist/css/bootstrap.css">
+<script src="/assets/dist/js/color-modes.js"></script>
+<link href="/assets/dist/css/headers.css" rel="stylesheet">
+<link href="/assets/dist/css/bootstrap.css" rel="stylesheet">
+<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/dist/css/layout.css" rel="stylesheet">
+<script>
+    //AJAX 요청을 통해 특정 name 저장하는 함수
+    function saveName(saveName) {
+        fetch('/save/api/saveName?saveName=' + saveName, {
+            method: 'POST'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('시스템 담당자에게 문의해주세요.');
+                }
+                return response.text();
+            })
+            .then(data => {
+                alert(data);  // 성공 메시지를 사용자에게 보여줍니다.
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+
+    // 팝업 창 종료
+    function closePopup() {
+        window.close();
+    }
+
+</script>
+<body>
+<div class="container">
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">이름 상세 페이지</h4>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <button class="w-30 btn btn-primary btn-sm" th:nameId="${popupName.name}" th:onclick="saveName(this.getAttribute('nameId'))">이름저장</button>
+                            <button class="w-30 btn btn-primary btn-sm" onclick="closePopup()">팝업닫기</button>
+                        </div>
+
+                        <!-- 연도 -->
+                        <div class="col-12">
+                            <label class="form-label" th:name="연도">연도</label>
+                            <input type="text" disabled="disabled" name="years" th:value="${popupName.getYears()}"/>
+                        </div>
+
+                        <!-- 이름 -->
+                        <div class="col-12">
+                            <label class="form-label" th:name="이름">이름</label>
+                            <input type="text" disabled="disabled" name="name" th:value="${popupName.getName()}"/>
+                        </div>
+
+                        <!-- 성별 -->
+                        <div class="col-12">
+                            <label class="form-label" th:name="성별">성별</label>
+                            <input type="text" disabled="disabled" name="gender" th:value="${popupName.getGender()}"/>
+                        </div>
+
+                        <!-- 순위 -->
+                        <div class="col-12">
+                            <label class="form-label" th:name="순위">순위</label>
+                            <input type="text" disabled="disabled" name="yearRank" th:value="${popupName.getYearRank()}"/>
+                        </div>
+
+                        <!-- 등록수 -->
+                        <div class="col-12">
+                            <label class="form-label" th:name="등록수">등록수</label>
+                            <input type="text" disabled="disabled" name="yearCount" th:value="${popupName.getYearCount()}"/>
+                        </div>
+
+                        <div class="col-12">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th scope="col">#첫번째 이름 한자</th>
+                                </tr>
+                                </thead>
+                                <!-- 번역 -->
+                                <tbody>
+                                    <tr th:each="nameTranslate : ${popupName.getFirstNameTranslate()}">
+                                        <td name="nameYear" th:text="${nameTranslate}">첫번째 이름 한자</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-12">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th scope="col">#두번째 이름 한자</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="nameTranslate : ${popupName.getSecondNameTranslate()}">
+                                    <td name="nameYear" th:text="${nameTranslate}">두번째 이름 한자</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+</div>
+</body>
+</html>
